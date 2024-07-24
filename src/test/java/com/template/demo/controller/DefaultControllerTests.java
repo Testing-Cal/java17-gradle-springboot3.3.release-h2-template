@@ -2,23 +2,22 @@ package com.template.demo.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest
 @TestPropertySource(locations = "classpath:application.properties")
 public class DefaultControllerTests {
 
@@ -32,7 +31,7 @@ public class DefaultControllerTests {
 	@Value("${spring.application.title}")
 	private String title;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		this.mockMvc = MockMvcBuilders.standaloneSetup(this.defaultController).build();
@@ -48,7 +47,7 @@ public class DefaultControllerTests {
 		ReflectionTestUtils.setField(defaultController, "title", title);
 		final MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON))
 				.andReturn().getResponse();
-		Assert.assertEquals(this.mockDefaultResponse(), response.getContentAsString());
+		assertEquals(this.mockDefaultResponse(), response.getContentAsString());
 	}
 
 }
