@@ -1,6 +1,6 @@
-FROM amazoncorretto:21-alpine
+FROM amazoncorretto:17-alpine
 ENV context ""
-ENV port 8184
+ENV port 8284
 RUN addgroup -S lazsa -g 1000 && adduser -S lazsa -u 1000 -G lazsa -s /bin/sh && mkdir /src && chown -R lazsa:lazsa /src
 USER lazsa
 
