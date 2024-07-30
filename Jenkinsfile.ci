@@ -171,7 +171,7 @@ pipeline {
                             stage('Build') {
                                 script {
                                     sh """
-                                       docker run --rm -v "$WORKSPACE":/opt/repo -w /opt/repo/mymaven $JAVA_MVN_IMAGE_VERSION ./gradlew clean build jacocoTestReport --refresh-dependencies
+                                       docker run --rm -v "$WORKSPACE":/opt/repo -w /opt/repo $JAVA_MVN_IMAGE_VERSION ./gradlew clean build jacocoTestReport --refresh-dependencies
                                        sudo chown -R `id -u`:`id -g` "$WORKSPACE"
                                     """
                                 }
