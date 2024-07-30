@@ -123,7 +123,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+#.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -184,7 +184,7 @@ test/
 .gradle
 **/build/
 !src/**/build/
-!/build/libs
+!/build/libs/
 
 # Ignore Gradle GUI config
 gradle-app.setting
