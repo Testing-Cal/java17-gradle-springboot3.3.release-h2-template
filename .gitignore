@@ -261,7 +261,7 @@ cython_debug/
 
 ### Java template
 # Compiled class file
-*.class
+# *.class
 
 # Log file
 
@@ -383,9 +383,9 @@ gradle-app.setting
 !gradle-wrapper.jar
 
 # Cache of project
-.gradletasknamecache
-sonar-report.xml
-sonar-result.xml
+# .gradletasknamecache
+# sonar-report.xml
+# sonar-result.xml
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
