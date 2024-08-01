@@ -318,18 +318,16 @@ pipeline {
                                 def sonar_org = "${metadataVars.sonarOrg}";
                                 def sonar_project_key = "${metadataVars.sonarProjectKey}";
 
-                                                      if (env.SONAR_CREDENTIAL_ID != null && env.SONAR_CREDENTIAL_ID != '') {
-                                                                withCredentials([usernamePassword(credentialsId: "$SONAR_CREDENTIAL_ID", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                                                                    sh """docker run -v "$WORKSPACE":/app -w /app sonarsource/sonar-scanner-cli:11.0 -Dsonar.projectKey="${sonar_project_key}" -Dsonar.projectName="${sonar_project_key}" -Dsonar.organization="${metadataVars.sonarOrg}" -Dsonar.java.binaries=build/classes -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test -Dsonar.exclusions=build/reports/**.*,build/test-results/**.* -Dsonar.host.url="${metadataVars.sonarHost}" -Dsonar.login=$PASSWORD"""
-                                                                }
-                                                            }
-                                                            else{
-                                                                withSonarQubeEnv('pg-sonar') {
-                                                                    sh """docker run -v "$WORKSPACE":/app -w /app sonarsource/sonar-scanner-cli:11.0 -Dsonar.projectKey="${sonar_project_key}" -Dsonar.projectName="${sonar_project_key}" -Dsonar.organization="${metadataVars.sonarOrg}" -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.java.binaries=build/classes -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test -Dsonar.exclusions=build/reports/**.*,build/test-results/**.* -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login=$SONAR_AUTH_TOKEN"""
-                                                                }
-                                                            }
-
-
+                                if (env.SONAR_CREDENTIAL_ID != null && env.SONAR_CREDENTIAL_ID != '') {
+                                    withCredentials([usernamePassword(credentialsId: "$SONAR_CREDENTIAL_ID", usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                                        sh """docker run -v "$WORKSPACE":/app -w /app sonarsource/sonar-scanner-cli:11.0 -Dsonar.sources=src -Dsonar.projectKey="${sonar_project_key}" -Dsonar.projectName="${sonar_project_key}" -Dsonar.organization="${metadataVars.sonarOrg}" -Dsonar.java.binaries=build/classes -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test -Dsonar.exclusions=build/reports/**.*,build/test-results/**.* -Dsonar.host.url="${metadataVars.sonarHost}" -Dsonar.login=$PASSWORD"""
+                                    }
+                                }
+                                else{
+                                    withSonarQubeEnv('pg-sonar') {
+                                        sh """docker run -v "$WORKSPACE":/app -w /app sonarsource/sonar-scanner-cli:11.0 -Dsonar.sources=src -Dsonar.projectKey="${sonar_project_key}" -Dsonar.projectName="${sonar_project_key}" -Dsonar.organization="${metadataVars.sonarOrg}" -Dsonar.junit.reportPaths=./build/test-results/test -Dsonar.java.binaries=build/classes -Dsonar.coverage.jacoco.xmlReportPaths=./build/reports/jacoco/test -Dsonar.exclusions=build/reports/**.*,build/test-results/**.* -Dsonar.host.url="$SONAR_HOST_URL" -Dsonar.login=$SONAR_AUTH_TOKEN"""
+                                    }
+                                }
                             }
                         }
                         else if ("${list[i]}" == "'ContainerImageScan'" && stage_flag['containerScan']) {
